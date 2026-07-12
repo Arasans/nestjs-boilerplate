@@ -237,7 +237,7 @@ export class Mongo${pascal}Repository extends I${pascal}Repository {
       .findOneAndUpdate(
         { _id: new Types.ObjectId(id) },
         [{ $set: { isActive: { $not: '$isActive' } } }],
-        { new: true },
+        { new: true, updatePipeline:true },
       )
       .lean()
       .exec();
