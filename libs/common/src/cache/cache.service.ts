@@ -120,6 +120,16 @@ export class CacheService implements OnModuleInit {
     return this.isConnected && this.redis !== null;
   }
 
+  async ping(): Promise<boolean> {
+    if (!this.redis || !this.isConnected) return false;
+    try {
+      await this.redis.ping();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async getTtl(key: string): Promise<number> {
     if (!this.redis || !this.isConnected) return -2;
     try {

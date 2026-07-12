@@ -4,6 +4,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
 import { BullModule } from '@nestjs/bullmq';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { TerminusModule } from '@nestjs/terminus';
 import { CacheModule } from '@app/common';
 import { ValidatorProviders } from '@app/validator';
 import { AuthModule } from './auth/auth.module';
@@ -11,6 +12,7 @@ import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { ExampleModule } from './example/example.module';
 import { AppController } from './app.controller';
+import { RedisHealthIndicator } from './health/redis.health-indicator';
 
 @Module({
   imports: [
@@ -24,6 +26,7 @@ import { AppController } from './app.controller';
       }),
     }),
     CacheModule,
+    TerminusModule,
     BullModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -43,6 +46,6 @@ import { AppController } from './app.controller';
     ExampleModule,
   ],
   controllers: [AppController],
-  providers: [...ValidatorProviders],
+  providers: [...ValidatorProviders, RedisHealthIndicator],
 })
 export class AppModule {}
