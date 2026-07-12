@@ -1,0 +1,33 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongodb_data:/data/db
+    command: mongod --replSet rs0
+
+  mongo-init:
+    image: mongo:7
+    depends_on:
+      - mongodb
+    restart: 'no'
+    entrypoint: >
+      mongosh --host mongodb -u admin -p admin123 --authenticationDatabase admin --eval '
+        try { rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "localhost:27017" }] }) } catch(e) { rs.status() }
+      '
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    command: redis-server --requirepass redis123
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongodb_data:
+  redis_data:
