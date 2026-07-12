@@ -1,4 +1,4 @@
-import { Seeder } from './seeder.interface';
+import { Seeder } from '@app/common';
 import { roleSeeder } from './role.seeder';
 import { userSeeder } from './user.seeder';
 

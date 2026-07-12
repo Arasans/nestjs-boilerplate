@@ -6,3 +6,4 @@ export * from './dto';
 export * from './utils';
 export * from './cache';
 export * from './enum';
+export * from './seeders';

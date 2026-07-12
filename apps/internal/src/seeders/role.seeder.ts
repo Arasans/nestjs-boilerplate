@@ -2,7 +2,7 @@ import { INestApplicationContext } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PERMISSION } from '../role/domain/permission.enum';
-import { Seeder } from './seeder.interface';
+import { Seeder } from '@app/common';
 
 const allPermissions = Object.values(PERMISSION).filter(
   (v) => typeof v === 'string',

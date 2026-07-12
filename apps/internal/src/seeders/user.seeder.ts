@@ -2,7 +2,7 @@ import { INestApplicationContext } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { Seeder } from './seeder.interface';
+import { Seeder } from '@app/common';
 
 const USERS = [
   {
