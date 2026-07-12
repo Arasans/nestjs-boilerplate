@@ -1,5 +1,8 @@
-import { RoleEntity } from './role.entity';
-import { PERMISSION } from './permission.enum';
+import {
+  RoleEntity,
+  CreateRoleData,
+  UpdateRoleData,
+} from './role.entity';
 import { CursorMeta } from '@app/common';
 
 export interface RoleFilter {
@@ -16,13 +19,10 @@ export abstract class IRoleRepository {
   abstract findAll(
     filter: RoleFilter,
   ): Promise<{ data: RoleEntity[]; meta: CursorMeta }>;
-  abstract create(data: {
-    name: string;
-    permissions: PERMISSION[];
-  }): Promise<RoleEntity>;
+  abstract create(data: CreateRoleData): Promise<RoleEntity>;
   abstract update(
     id: string,
-    data: { name?: string; permissions?: PERMISSION[] },
+    data: UpdateRoleData,
   ): Promise<RoleEntity | null>;
   abstract delete(id: string): Promise<boolean>;
   abstract togglePrimary(id: string): Promise<RoleEntity | null>;

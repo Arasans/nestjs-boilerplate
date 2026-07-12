@@ -1,4 +1,8 @@
-import { UserEntity } from './user.entity';
+import {
+  UserEntity,
+  CreateUserData,
+  UpdateUserData,
+} from './user.entity';
 import { CursorMeta } from '@app/common';
 
 export interface UserFilter {
@@ -17,15 +21,10 @@ export abstract class IUserRepository {
   abstract findAll(
     filter: UserFilter,
   ): Promise<{ data: UserEntity[]; meta: CursorMeta }>;
-  abstract create(data: {
-    username: string;
-    email: string;
-    password: string;
-    role?: string;
-  }): Promise<UserEntity>;
+  abstract create(data: CreateUserData): Promise<UserEntity>;
   abstract update(
     id: string,
-    data: { username?: string; email?: string; role?: string },
+    data: UpdateUserData,
   ): Promise<UserEntity | null>;
   abstract updatePassword(id: string, hashedPassword: string): Promise<boolean>;
   abstract delete(id: string): Promise<boolean>;

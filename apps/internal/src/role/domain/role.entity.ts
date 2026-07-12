@@ -8,3 +8,6 @@ export class RoleEntity {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type CreateRoleData = Pick<RoleEntity, 'name' | 'permissions'>;
+export type UpdateRoleData = Partial<CreateRoleData>;

@@ -1,19 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IRoleRepository } from './role.repository';
-import { PERMISSION } from './permission.enum';
+import { CreateRoleData, UpdateRoleData } from './role.entity';
 
 @Injectable()
 export class RoleService {
   constructor(private readonly repo: IRoleRepository) {}
 
-  async create(data: { name: string; permissions: PERMISSION[] }) {
+  async create(data: CreateRoleData) {
     return this.repo.create(data);
   }
 
-  async update(
-    id: string,
-    data: { name?: string; permissions?: PERMISSION[] },
-  ) {
+  async update(id: string, data: UpdateRoleData) {
     const result = await this.repo.update(id, data);
     if (!result) throw new NotFoundException('Role not found');
     return result;

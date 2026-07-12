@@ -1,4 +1,8 @@
-import { Example } from './example.entity';
+import {
+  Example,
+  CreateExampleData,
+  UpdateExampleData,
+} from './example.entity';
 import { CursorMeta } from '@app/common';
 
 export interface ExampleFilter {
@@ -16,13 +20,10 @@ export abstract class IExampleRepository {
   abstract findAll(
     filter: ExampleFilter,
   ): Promise<{ data: Example[]; meta: CursorMeta }>;
-  abstract create(data: {
-    name: string;
-    description?: string;
-  }): Promise<Example>;
+  abstract create(data: CreateExampleData): Promise<Example>;
   abstract update(
     id: string,
-    data: { name?: string; description?: string },
+    data: UpdateExampleData,
   ): Promise<Example | null>;
   abstract delete(id: string): Promise<boolean>;
   abstract toggleActive(id: string): Promise<Example | null>;

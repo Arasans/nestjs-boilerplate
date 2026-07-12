@@ -1,25 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { IUserRepository } from './user.repository';
+import { CreateUserData, UpdateUserData } from './user.entity';
 
 @Injectable()
 export class UserService {
   constructor(private readonly repo: IUserRepository) {}
 
-  async create(data: {
-    username: string;
-    email: string;
-    password: string;
-    role?: string;
-  }) {
+  async create(data: CreateUserData) {
     const hashedPassword = await bcrypt.hash(data.password, 10);
     return this.repo.create({ ...data, password: hashedPassword });
   }
 
-  async update(
-    id: string,
-    data: { username?: string; email?: string; role?: string },
-  ) {
+  async update(id: string, data: UpdateUserData) {
     const result = await this.repo.update(id, data);
     if (!result) throw new NotFoundException('User not found');
     return result;

@@ -6,3 +6,7 @@ export class Example {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type CreateExampleData = Pick<Example, 'name'> &
+  Partial<Pick<Example, 'description'>>;
+export type UpdateExampleData = Partial<Pick<Example, 'name' | 'description'>>;

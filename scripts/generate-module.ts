@@ -33,10 +33,17 @@ export class ${pascal}Entity {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type Create${pascal}Data = Pick<${pascal}Entity, 'name'>;
+export type Update${pascal}Data = Partial<Create${pascal}Data>;
 `;
 
 files[`domain/${kebab}.repository.ts`] = `\
-import { ${pascal}Entity } from './${kebab}.entity';
+import {
+  ${pascal}Entity,
+  Create${pascal}Data,
+  Update${pascal}Data,
+} from './${kebab}.entity';
 import { CursorMeta } from '@app/common';
 
 export interface ${pascal}Filter {
@@ -54,10 +61,10 @@ export abstract class I${pascal}Repository {
   abstract findAll(
     filter: ${pascal}Filter,
   ): Promise<{ data: ${pascal}Entity[]; meta: CursorMeta }>;
-  abstract create(data: { name: string }): Promise<${pascal}Entity>;
+  abstract create(data: Create${pascal}Data): Promise<${pascal}Entity>;
   abstract update(
     id: string,
-    data: { name?: string },
+    data: Update${pascal}Data,
   ): Promise<${pascal}Entity | null>;
   abstract delete(id: string): Promise<boolean>;
   abstract toggleActive(id: string): Promise<${pascal}Entity | null>;
@@ -67,16 +74,17 @@ export abstract class I${pascal}Repository {
 files[`domain/${kebab}.service.ts`] = `\
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { I${pascal}Repository } from './${kebab}.repository';
+import { Create${pascal}Data, Update${pascal}Data } from './${kebab}.entity';
 
 @Injectable()
 export class ${pascal}Service {
   constructor(private readonly repo: I${pascal}Repository) {}
 
-  async create(data: { name: string }) {
+  async create(data: Create${pascal}Data) {
     return this.repo.create(data);
   }
 
-  async update(id: string, data: { name?: string }) {
+  async update(id: string, data: Update${pascal}Data) {
     const result = await this.repo.update(id, data);
     if (!result) throw new NotFoundException('${pascal} not found');
     return result;

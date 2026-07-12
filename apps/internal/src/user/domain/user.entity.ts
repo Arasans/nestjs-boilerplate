@@ -41,3 +41,11 @@ export class UserEntity {
     };
   }
 }
+
+export type CreateUserData = Pick<
+  UserEntity,
+  'username' | 'email' | 'password'
+> & { role?: string };
+export type UpdateUserData = Partial<
+  Pick<UserEntity, 'username' | 'email'>
+> & { role?: string };
